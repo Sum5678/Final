@@ -1,0 +1,35 @@
+{% extends 'base2.html' %}
+{% load static %}
+
+{% block title %}Welcome!{% endblock title %}
+{% block headmessage %}
+{% if user.is_authenticated %}
+    <p>Welcome, {{ user.username }}!</p>
+{% else %}
+    <p>Please log in to see this content.</p>
+{% endif %}
+<h3 style="font-family:微軟正黑體;">本站文章列表</h3>
+{% endblock headmessage %}
+
+{% block content %}
+{% for post in posts %}
+<div class="card" style="margin-bottom: 20px;">
+    <div class="card-header" style="background-color: #007bff;">
+        <a href="/post/{{post.slug}}" style="font-family:微軟正黑體; font-size:18pt; font-weight:bold; color: #ffffff;">{{post.title}}</a>
+    </div>
+
+    <div class='card-body' style='background-color:#a7d6e1;'>
+        <p>
+            {{ post.body | truncatechars:40 }}
+        </p>
+    </div>
+
+    <div class='card-footer'  style='background-color:#a7d6e1;'>
+        <p>
+            發佈時間：{{ post.pub_date | date:"Y M d, H:i:s"}}
+        </p>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
+

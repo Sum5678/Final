@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "mywebproject",
+			"path": ".."
+		},
+		{
+			"name": "templates",
+			"path": "../../00mywebproject/templates"
+		}
+	],
+	"settings": {}
+}

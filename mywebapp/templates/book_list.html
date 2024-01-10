@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="你的網站描述">
+    <title>圖書系統</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: rgba(97, 127, 160, 0.973) ;
+        }
+
+        .navbar {
+            background-color: rgb(139, 184, 234);
+        }
+
+        .navbar-brand {
+            color: #17314ee3;
+        }
+
+        .navbar-nav .nav-link {
+            color:rgb(20, 92, 186);
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <!-- 導覽欄 -->
+    <nav class="navbar navbar-expand-lg navbar-dark" >
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <!-- 品牌標誌 -->
+                <a class="navbar-brand" href="#">
+                    <img src="/static/images/abcd.jpg" width="500" height="150" class="d-inline-block align-top" alt="Navbar Logo">
+                </a>
+            </nav>        
+        
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                  
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首頁</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">登入</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">註冊</a>
+                    </li>
+                    <!-- 下拉式選單 -->
+                    <div class="nav-item">
+                    <li class="nav-item ml-auto">
+                        <select id="pages" class="custom-select" onchange="window.location.href=this.value;">
+                            <option value="">MENU</option>
+                            <option value="https://kknews.cc/zh-tw/news/9glkrl.html">推薦大學生讀的書</option>
+                            <option value="https://schnauzerlulu.com/must-read-once-books-for-lifetime/">人生必讀六本書</option>
+                            <option value="https://www.harpersbazaar.com/tw/culture/theatreandbooks/g31316313/10-books-recommendation-2020/">強大自己心靈的書</option>
+                        </select>
+                    </li>
+                    </div>   
+                    <div class="container">
+                    </div>                 
+                    <style>
+                    </style> 
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-3">
+                <!-- 用户信息卡片 -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">用户信息</h5>
+                        <p class="card-text">歡迎回来，{{ user.username }}！</p>
+                        <!-- 在用戶個人頁面上 -->
+                        <a href="{% url 'mywebapp:return_books' %}" class="btn btn-primary">還書</a>
+                        <!-- 其他用户信息... -->
+                    </div>
+                </div>
+
+                <!-- 卡片內容卡片 -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <!-- 卡片內容 -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <!-- 書籍列表卡片 -->
+                <div class="card">
+                    <div class="card-body">
+                        {% if messages %}
+                            <ul class="messages">
+                            {% for message in messages %}
+                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+
+                        {% for book in books %}
+                            <div class="card mb-3">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="{{ book.image.url }}" alt="{{ book.title }}" class="img-fluid">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h3 class="card-title">{{ book.title }}</h3>
+                                            <p>作者: {{ book.author.name }}</p>
+                                            <p>類別: {{ book.category }}</p>
+                                            <p>狀態: {{ book.status }}</p>
+                                            <p>数量: {{ book.quantity }}</p>
+                                            <!-- 添加更多書籍信息... -->
+                                            {% if user.is_authenticated and book.status == 'available' %}
+                                                <form method="post" action="{% url 'borrow_book' book.id %}">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-primary">借書</button>
+                                                </form>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="card-footer">
+                        {% include 'footer.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

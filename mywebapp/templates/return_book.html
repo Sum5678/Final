@@ -1,0 +1,33 @@
+<!-- return_book.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ... 省略部分代碼 ... -->
+</head>
+<body>
+    <!-- 導覽欄 -->
+    <!-- ... 省略部分代碼 ... -->
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>待歸還的書籍</h3>
+                <form method="post" action="{% url 'process_returns' %}">
+                    {% csrf_token %}
+                    <ul>
+                        {% for book in borrowed_books %}
+                            <li>
+                                <input type="checkbox" name="return_books" value="{{ book.id }}">
+                                {{ book.book.title }} by {{ book.book.author.name }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <button type="submit" class="btn btn-primary">確認歸還</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ... 省略部分代碼 ... -->
+</body>
+</html>

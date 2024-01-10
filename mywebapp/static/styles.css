@@ -1,0 +1,41 @@
+
+.navbar {
+    background-image: url('/static/images/abcd.jpg'); /* 替換為你的圖片路徑 */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+}
+
+
+
+
+/* 調整下拉式選單的格子大小 */
+.custom-select {
+    /* 設定選單的最小高度，這會影響到下拉選單的顯示高度 */
+    min-height: 40px; /* 這裡可以根據需要調整高度 */
+
+    /* 設定選單的字體大小 */
+    font-size: 16px; /* 這裡可以根據需要調整字體大小 */
+
+    /* 設定選單的邊框大小和顏色 */
+    border: 4px solid #007bff; /* 這裡可以根據需要調整邊框大小和顏色 */
+
+    /* 設定選單的內部填充(padding) */
+    padding: 5px; /* 這裡可以根據需要調整內部填充 */
+
+    /* 設定選單的文字顏色 */
+    color: rgb(43, 5, 5)333; /* 這裡可以根據需要調整文字顏色 */
+
+    /* 設定選單的背景顏色 */
+    background-color: #fff; /* 這裡可以根據需要調整背景顏色 */
+
+    /* 設定選單的下拉箭頭顏色 */
+    background-image: none; /* 隱藏默認的下拉箭頭 */
+}
+/* 在你的CSS檔案中添加以下樣式 */
+#pages {
+    width: 200px; /* 調整為你希望的寬度，可以是固定的像素值或百分比 */
+}
+
+
+

@@ -1,0 +1,12 @@
+<!-- mywebapp/templates/manage_books.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>書籍管理</h2>
+  <ul>
+    {% for book in books %}
+      <li>{{ book.title }} - {{ book.author }} - {{ book.status }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
