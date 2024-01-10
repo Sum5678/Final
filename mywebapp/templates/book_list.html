@@ -60,6 +60,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'register' %}">註冊</a>
                     </li>
+                    <li class="nav-item">
+                        <form class="d-flex" method="get" action="{% url 'book_list' %}">
+                            <input class="form-control me-2" type="search" placeholder="搜尋書籍" aria-label="Search" name="q">
+                            <button class="btn btn-outline-success" type="submit">搜尋</button>
+                        </form>
+                    </li>
                     <!-- 下拉式選單 -->
                     <div class="nav-item">
                     <li class="nav-item ml-auto">
@@ -89,7 +95,7 @@
                         <h5 class="card-title">用户信息</h5>
                         <p class="card-text">歡迎回来，{{ user.username }}！</p>
                         <!-- 在用戶個人頁面上 -->
-                        <a href="{% url 'mywebapp:return_books' %}" class="btn btn-primary">還書</a>
+                        <a href="{% if book.id %}{% url 'mywebapp:return_books' book.id %}{% endif %}" class="btn btn-primary">還書</a>
                         <!-- 其他用户信息... -->
                     </div>
                 </div>

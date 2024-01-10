@@ -3,6 +3,20 @@
 <html lang="en">
 <head>
     <!-- ... 省略部分代碼 ... -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 當頁面載入完成後綁定表單的 submit 事件
+            document.querySelector('form').addEventListener('submit', function(event) {
+                // 阻止表單的預設提交行為
+                event.preventDefault();
+
+                // 在這裡可以執行其他邏輯，例如使用 AJAX 提交表單數據
+
+                // 最後手動提交表單
+                this.submit();
+            });
+        });
+    </script>
 </head>
 <body>
     <!-- 導覽欄 -->
@@ -31,3 +45,6 @@
     <!-- ... 省略部分代碼 ... -->
 </body>
 </html>
+
+
+

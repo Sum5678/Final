@@ -8,18 +8,37 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 import os
 from django.conf import settings
+books = Book.objects.all()
+
+for book in books:
+    if not book.id:
+        print(f"Book with title '{book.title}' does not have a valid ID.")
+
 
 def process_returns(request):
     if request.method == 'POST':
         books_to_return = request.POST.getlist('return_books')
         BorrowedBook.objects.filter(id__in=books_to_return).update(returned=True)
-    return redirect('user_profile')  # 重定向到用戶個人頁面或其他適當的位置
+
+        # 根據需要重定向到用戶個人頁面或其他適當的位置
+        return redirect('user_profile')
+
+    # 如果不是 POST 請求，你也可以在這裡添加相應的處理邏輯
+    # ...
+
+    # 如果需要，你也可以在這裡添加一個默認的重定向
+    return redirect('book_list')
 
 
 def book_list(request):
-    # 获取书籍列表，这里假设您已经有了获取书籍列表的方法
+    query = request.GET.get('q', '')  # 從查詢字串中獲取查詢內容，如果沒有則預設為空字串
     books = Book.objects.all()
-    return render(request, 'book_list.html', {'books': books})
+
+    # 如果有查詢內容，使用 filter 過濾書籍列表
+    if query:
+        books = books.filter(title__icontains=query)
+
+    return render(request, 'book_list.html', {'books': books, 'query': query})
 
 
 
@@ -121,7 +140,7 @@ def borrow_book(request, book_id):
             book.quantity -= 1
             book.save()
             # 在這裡你還可以添加其他相關的借書邏輯，例如創建借書記錄等
-            messages.success(request, '借閱成功，感謝您的支持！廣告：XXX')
+            messages.success(request, '借閱成功，感謝您的支持！廣告：老師分下留情qwq')
             return redirect('book_list')
         else:
             messages.error(request, '借閱失敗，請檢查您的借閱信息。')
@@ -130,30 +149,22 @@ def borrow_book(request, book_id):
     return render(request, 'borrow_book.html', {'book': book})
 
 
+
+
 def return_books(request, book_id):
     user = request.user
+    
+    # 取得使用者已借閱但未歸還的書籍
     borrowed_books = BorrowedBook.objects.filter(user=user, returned=False)
+    
+    # 如果使用者沒有借閱或者已經歸還所有書籍，直接重定向到書籍列表頁面
+    if not borrowed_books.exists():
+        return redirect('book_list')
+
+    # 渲染還書頁面
     return render(request, 'return_book.html', {'borrowed_books': borrowed_books})
-    try:
-        # 根據書籍ID查找書籍
-        book = Book.objects.get(id=book_id)
-        
-        # 檢查書籍是否被借閱
-        borrowed_book = BorrowedBook.objects.get(book=book, returned=False)
 
-        # 將書籍標記為歸還
-        borrowed_book.returned = True
-        borrowed_book.save()
-
-        # 在實際應用中，你可能還需要更新用戶的借書記錄、計算逾期費用等等
-
-        messages.success(request, f'書籍 "{book.title}" 歸還成功。')
-    except Book.DoesNotExist:
-        messages.error(request, '找不到該書籍。')
-    except BorrowedBook.DoesNotExist:
-        messages.error(request, '該書籍未被借閱。')
-
-    return redirect('home')  # 將用戶重新導向到首頁或其他頁面
+    
 
 
 @login_required
