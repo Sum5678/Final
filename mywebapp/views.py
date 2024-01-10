@@ -8,7 +8,19 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 import os
 from django.conf import settings
+from .models import BorrowRecord
+
+
+
+
+
 books = Book.objects.all()
+def borrow_records(request):
+    # 获取当前用户的借书记录
+    user_borrow_records = BorrowRecord.objects.filter(user=request.user)
+
+    return render(request, 'borrow_records.html', {'user_borrow_records': user_borrow_records})
+
 
 for book in books:
     if not book.id:

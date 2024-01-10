@@ -1,0 +1,32 @@
+<!-- borrow_records.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Borrow Records</title>
+</head>
+<body>
+    <h1>Borrow Records</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Book Title</th>
+                <th>Author</th>
+                <th>Borrowed Date</th>
+                <th>Returned Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in user_borrow_records %}
+                <tr>
+                   <p class="card-text">歡迎回来，{{ user.username }}！</p>
+                    <td>{{ record.book.title }}</td>
+                    <td>{{ record.book.author.name }}</td>
+                    <td>{{ record.borrowed_date }}</td>
+                    <td>{{ record.returned_date }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

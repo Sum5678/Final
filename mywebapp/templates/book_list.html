@@ -94,6 +94,9 @@
                     <div class="card-body">
                         <h5 class="card-title">用户信息</h5>
                         <p class="card-text">歡迎回来，{{ user.username }}！</p>
+                        <!-- 模板中的某個地方，例如 base.html -->
+                        <a href="{% url 'borrow_records' %}">Borrow Records</a>
+
                         <!-- 在用戶個人頁面上 -->
                         <a href="{% if book.id %}{% url 'mywebapp:return_books' book.id %}{% endif %}" class="btn btn-primary">還書</a>
                         <!-- 其他用户信息... -->
@@ -139,6 +142,10 @@
                                                     {% csrf_token %}
                                                     <button type="submit" class="btn btn-primary">借書</button>
                                                 </form>
+                                            {% endif %}
+
+                                            {% if user.is_authenticated %}
+                                                <a href="{% url 'mywebapp:return_books' book.id %}" class="btn btn-warning">還書</a>
                                             {% endif %}
                                         </div>
                                     </div>

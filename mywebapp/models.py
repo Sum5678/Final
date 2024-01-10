@@ -43,14 +43,16 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
+# models.py
 class BorrowRecord(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     borrowed_date = models.DateTimeField(auto_now_add=True)
     returned_date = models.DateTimeField(null=True, blank=True)
 
-    class Meta:
-        app_label = 'mywebapp'
+    def __str__(self):
+        return f"{self.user.username} - {self.book.title}"
+
 
 class BorrowedBook(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -59,3 +61,4 @@ class BorrowedBook(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.book.title}"
+    returned = models.BooleanField(default=False)

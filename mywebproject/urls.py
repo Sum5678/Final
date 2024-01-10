@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf import settings
+from mywebapp.views import borrow_records
 
 
 urlpatterns = [
@@ -22,7 +23,7 @@ urlpatterns = [
     path('user/', include('mywebapp.urls', namespace='mywebapp')),
     # 例如，urls.py 中的片段可能如下所示：
     path('process_returns/', process_returns, name='process_returns'),
-
+    path('borrow_records/', borrow_records, name='borrow_records'),
 ]
 
 

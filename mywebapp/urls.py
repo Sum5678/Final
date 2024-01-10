@@ -1,7 +1,6 @@
 from django.urls import path
 from .views import home, book_list, manage_books, borrow_book, return_books, login_view, register,process_returns
-
-
+from .views import borrow_records
 app_name = 'mywebapp'
 
 urlpatterns = [
@@ -14,5 +13,5 @@ urlpatterns = [
     path('register/', register, name='register'),
     # 例如，urls.py 中的片段可能如下所示：
     path('process_returns/', process_returns, name='process_returns'),
-
+    path('borrow_records/', borrow_records, name='borrow_records'),
 ]
